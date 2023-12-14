@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:20:06 by saharchi          #+#    #+#             */
-/*   Updated: 2023/12/13 21:22:05 by saharchi         ###   ########.fr       */
+/*   Updated: 2023/12/14 19:24:37 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,100 +16,58 @@ char *get_line(char *s, int j)
 {
     char *line;
 
+    if (!s || !s[0])
+        return (NULL);
     line = ft_substr(s, 0, j);
     return(line);
 }
 
-char *get_r(char **s, int j)
+char *get_r(char *s, int j)
 {
     char *s1;
 
-    s1 = ft_substr(*s, j, ft_strlen(*s) - j);
-    free(*s);
-    *s = NULL;
+    // printf("s=    %s/", s);
+    s1 = ft_substr(s, j, ft_strlen(s, '\0') - j);
+    free(s);
+    s = NULL;
+    // printf("s1=    %s/", s1);
     return(s1);
 }
 
-// char *awdii(char *s, int fd)
-// {
-//     int i;
-//     char *buff;
-//     char *line;
-
-//     buff = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-//     if(!buff)
-//         return(NULL);
-//     if (!s)
-//         s = (ft_strdup(""));
-//     i = read(fd, buff, BUFFER_SIZE);
-//     while(i >= 0)
-//     {
-//         buff[i] = '\0';
-//         s = ft_strjoin(s, buff);
-//         if( ft_strchr(buff, '\n'))
-//         {
-//             line = get_line(s);
-//             s = get_r(s);
-//             return(free(buff), line);
-//         }
-//         if(i == 0)
-//             return(free(buff), s);
-//         i = read(fd, buff, BUFFER_SIZE);
-//     }
-//     free(buff);
-//     return(NULL);
-// }
-char *get_next_line(int fd)
-{
+char *get_next_line(int fd) {
     static char *string;
-    int i;
-    int j;
     char *buff;
+    int i;
     char *line;
 
-    buff = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-    if(!buff)
-        return(NULL);
+    buff = (char *)malloc(BUFFER_SIZE + 1);
     if (!string)
-        string = (ft_strdup(""));
-    i = read(fd, buff, BUFFER_SIZE);
-    while(i >= 0)
-    {
-        buff[i] = '\0';
-        string = ft_strjoin(string, buff);
-        j = ft_strchr(string, '\n');
-        if(j >= 0)
-        {
-            line = get_line(string, j);
-            string = get_r(&string, j);
-            return(free(buff), line);
-        }
-        if(i == 0)
-        {
-            puts("wlad l9hab");
-            return(free(buff), string);
-        }
+        string = ft_strdup("");
+
+    i = 1;
+    while (i != 0 && !ft_strchr(string, '\n')) {
         i = read(fd, buff, BUFFER_SIZE);
+        buff[i] = '\0';
+        if(i == -1)
+            return(NULL);
+        string = ft_strjoin(string, buff);
     }
-    
-    // string = awdii(string, fd);
-    return(NULL);
+    free(buff);
+    line = get_line(string, ft_strlen(string, '\0'));
+    string = get_r(string, ft_strlen(string, '\0'));
+    return (line);
 }
 
 int main()
 {
-       int fd = open("test",   O_RDWR);
-    // char *s;
-    // while((s = get_next_line(fd)))
-    // {
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        // free(s);
-    // }
+    int fd = open("test.txt",   O_RDWR);
+    char *s;
+        int i = 0;
+        while (i <10)
+        {
+            s = get_next_line(fd);
+            printf("%s", s);
+            free(s);
+            i++;
+        }
 }
