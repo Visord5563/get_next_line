@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:20:06 by saharchi          #+#    #+#             */
-/*   Updated: 2023/12/14 19:24:37 by saharchi         ###   ########.fr       */
+/*   Updated: 2023/12/14 22:51:27 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ char *get_r(char *s, int j)
 {
     char *s1;
 
-    // printf("s=    %s/", s);
-    s1 = ft_substr(s, j, ft_strlen(s, '\0') - j);
+    s1 = ft_substr(s, j, ft_strlen(s) - j);
     free(s);
     s = NULL;
-    // printf("s1=    %s/", s1);
     return(s1);
 }
 
@@ -41,9 +39,10 @@ char *get_next_line(int fd) {
     char *line;
 
     buff = (char *)malloc(BUFFER_SIZE + 1);
-    if (!string)
-        string = ft_strdup("");
-
+    if (!buff)
+        return (NULL);
+    if(fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0)
+        return (NULL);
     i = 1;
     while (i != 0 && !ft_strchr(string, '\n')) {
         i = read(fd, buff, BUFFER_SIZE);
@@ -53,21 +52,26 @@ char *get_next_line(int fd) {
         string = ft_strjoin(string, buff);
     }
     free(buff);
-    line = get_line(string, ft_strlen(string, '\0'));
-    string = get_r(string, ft_strlen(string, '\0'));
+    line = get_line(string, ft_strchr(string, '\n'));
+    string = get_r(string, ft_strchr(string, '\n'));
     return (line);
 }
+// void ff()
+// {
+//     system("leaks a.out");
+// }
 
 int main()
 {
-    int fd = open("test.txt",   O_RDWR);
+    int fd = open("get_next_line_utils.c",   O_RDWR);
     char *s;
         int i = 0;
-        while (i <10)
+        while ((s = get_next_line(fd)))
         {
-            s = get_next_line(fd);
+            // s = get_next_line(fd);
             printf("%s", s);
             free(s);
-            i++;
+            // i++;
         }
+   // atexit(ff);
 }
