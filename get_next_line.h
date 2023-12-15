@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:20:01 by saharchi          #+#    #+#             */
-/*   Updated: 2023/12/15 22:30:46 by saharchi         ###   ########.fr       */
+/*   Updated: 2023/12/15 23:36:12 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1450454545
 #endif
-char    *get_next_line(int fd);
-char    *ft_strjoin(char const *s1, char const *s2);
+char	*get_next_line(int fd);
+char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
-char	*ft_strlcat(char *dst, const char *src);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-int ft_strchr( char *s);
+int		ft_strchr( char *s);
 char	*ft_substr(char *s,unsigned int start, size_t len);
+char	*get_line(char **s, int j);
+char	*get_r(char **s, int j)
 
 #endif

@@ -6,26 +6,13 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:20:06 by saharchi          #+#    #+#             */
-/*   Updated: 2023/12/15 22:39:02 by saharchi         ###   ########.fr       */
+/*   Updated: 2023/12/15 23:30:52 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 
-int check_nl1(char *s)
-{
-    int i;
-
-    i = 0;
-    while (s[i])
-    {
-        if (s[i] == '\0')
-            return (1);
-        i++;
-    }
-    return (0);
-}
 char *get_r(char **s, int j)
 {
     char *s1;
@@ -43,7 +30,6 @@ char *get_line(char **s, int j)
     return(line);
 }
 
-#include <limits.h>
 char *get_next_line(int fd) 
 {
     static char *string;
@@ -68,7 +54,7 @@ char *get_next_line(int fd)
         if (ft_strchr(string) != -1)
             return(free(buff), get_line(&string, ft_strchr(string)));
         if(i == 0)
-            return(free(buff), get_r(&string, check_nl1(string)));
+            return(free(buff), get_r(&string, 0));
     } 
     return (free(buff),free(string), string = NULL,NULL);
 }
