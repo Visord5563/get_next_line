@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:20:06 by saharchi          #+#    #+#             */
-/*   Updated: 2023/12/15 23:30:52 by saharchi         ###   ########.fr       */
+/*   Updated: 2023/12/16 23:53:51 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char *get_r(char **s, int j)
     *s = NULL;
     return(s1);
 }
-char *get_line(char **s, int j)
+char *get_newline(char **s, int j)
 {
     char *line;
     line = ft_substr(*s, 0, j);
@@ -43,33 +43,33 @@ char *get_next_line(int fd)
         return (NULL);
     if (!string)
 		string = ft_strdup("");
-    i = 1;
-    while(i != 0)
+    i = read(fd, buff, BUFFER_SIZE);
+    while(i >= 0)
     {
-        i = read(fd, buff, BUFFER_SIZE);
         buff[i] = '\0';
         string = ft_strjoin(string, buff);
         if(string[0] == '\0')
             break;
         if (ft_strchr(string) != -1)
-            return(free(buff), get_line(&string, ft_strchr(string)));
+            return(free(buff), get_newline(&string, ft_strchr(string)));
         if(i == 0)
             return(free(buff), get_r(&string, 0));
+        i = read(fd, buff, BUFFER_SIZE);
     } 
-    return (free(buff),free(string), string = NULL,NULL);
+    return (free(buff),free(string), string = NULL, NULL);
 }
 // void ff()
 // {
 //     system("leaks a.out");
 // }
-// int main()
-// {
-//      int fd = open("test.txt",   O_RDWR);
-//     printf("%s", get_next_line(fd));
-//     printf("%s", get_next_line(fd));
-//     printf("%s", get_next_line(fd));
-//     printf("%s", get_next_line(fd));
-//     printf("%s", get_next_line(fd));
-// }
+int main()
+{
+     int fd = open("test.txt",   O_RDWR);
+
+    char *s;
+    while((s = get_next_line(fd))){
+        printf("%s", s);
+    }
+}
 
         
